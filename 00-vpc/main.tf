@@ -1,5 +1,5 @@
 module "vpc" {
-  source = "git::https://github.com/mallu-harshavardhan07/Terraform_Modules.git//?ref=main"
+  source = "git::https://github.com/mallu-harshavardhan07/Terraform_Modules.git//vpc-module?ref=main"
   project = "Roboshop"
   env = "Dev"
   cidr_block = "10.0.0.0/16"
