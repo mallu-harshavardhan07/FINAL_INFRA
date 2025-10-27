@@ -18,3 +18,8 @@ resource "aws_ssm_parameter" "vpn_sg_id" {
   type  = "String"
   value = module.vpn.sg_id
 }
+resource "aws_ssm_parameter" "mongodb_sg_id" {
+  name  = "/roboshop/dev/mongodb_sg_id"
+  type  = "String"
+  value = module.mongodb.sg_id
+}

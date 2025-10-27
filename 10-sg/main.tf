@@ -30,6 +30,14 @@ module "vpn" {
     sg_description = "For vpn"
     vpc_id = data.aws_ssm_parameter.get_vpc_id.value
 }
+module "mongodb" {
+    source = "git::https://github.com/mallu-harshavardhan07/Terraform_Modules.git//sg-module?ref=main"
+    project = "Roboshop"
+    env = "Dev"
+    sg_name = "mongodb-sg"
+    sg_description = "This is mondogb sg"
+    vpc_id = data.aws_ssm_parameter.get_vpc_id.value
+}
 # bastion accepting connections from my laptop
 resource "aws_security_group_rule" "bastion_laptop" {
   type              = "ingress"
@@ -80,4 +88,18 @@ resource "aws_security_group_rule" "vpn_943" {
   protocol          = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
   security_group_id = module.vpn.sg_id
+}
+
+#mongodb should allow connections from vpn 22 , 27017 port
+variable "mongodb_ports_vpn" {
+  default = [22,27017]
+}
+resource "aws_security_group_rule" "mongodb_vpn_ssh" {
+  count = length(var.mongodb_ports_vpn)
+  type              = "ingress"
+  from_port         = var.mongodb_ports_vpn[count.index]
+  to_port           = var.mongodb_ports_vpn[count.index]
+  protocol          = "tcp"
+  source_security_group_id = module.vpn.sg_id
+  security_group_id = module.mongodb.sg_id
 }

@@ -22,7 +22,7 @@ data "aws_ssm_parameter" "vpn_sg_id" {
   name = "/roboshop/dev/vpn_sg_id"
 }
 
-data "aws_ssm_parameter" "public_subnet_ids" {
-  name = "/roboshop/env/public_subnet_ids"
+data "aws_ssm_parameter" "public_subnet" {
+  name = "/roboshop/dev/public_subnet_ids"
 }
 

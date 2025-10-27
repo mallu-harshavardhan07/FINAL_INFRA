@@ -12,14 +12,12 @@ resource "aws_instance" "vpn" {
   key_name = aws_key_pair.openvpn.key_name
   user_data = file("openvpn.sh")
 
-  tags = merge(
-    local.common_tags,
-    {
+  tags =  {
         Name = "roboshop-dev-vpn"
     }
-  )
+  
 }
-
+ 
 # resource "aws_route53_record" "vpn" {
 #   zone_id = var.zone_id
 #   name    = "vpn-${var.environment}.${var.zone_name}"
