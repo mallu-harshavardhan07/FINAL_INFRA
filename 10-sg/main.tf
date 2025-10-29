@@ -38,6 +38,46 @@ module "mongodb" {
     sg_description = "This is mondogb sg"
     vpc_id = data.aws_ssm_parameter.get_vpc_id.value
 }
+
+module "redis" {
+    source = "git::https://github.com/mallu-harshavardhan07/Terraform_Modules.git//sg-module?ref=main"
+    project = "Roboshop"
+    env = "Dev"
+    sg_name = "redis-sg"
+    sg_description = "This is redis sg"
+    vpc_id = data.aws_ssm_parameter.get_vpc_id.value
+}
+module "mysql" {
+    source = "git::https://github.com/mallu-harshavardhan07/Terraform_Modules.git//sg-module?ref=main"
+    project = "Roboshop"
+    env = "Dev"
+    sg_name = "mysql-sg"
+    sg_description = "This is mysql sg"
+    vpc_id = data.aws_ssm_parameter.get_vpc_id.value
+}
+module "rabbitmq" {
+    source = "git::https://github.com/mallu-harshavardhan07/Terraform_Modules.git//sg-module?ref=main"
+    project = "Roboshop"
+    env = "Dev"
+    sg_name = "rabbitmq-sg"
+    sg_description = "This is rabbitmq sg"
+    vpc_id = data.aws_ssm_parameter.get_vpc_id.value
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # bastion accepting connections from my laptop
 resource "aws_security_group_rule" "bastion_laptop" {
   type              = "ingress"
@@ -77,7 +117,7 @@ resource "aws_security_group_rule" "vpn_1194" {
   type              = "ingress"
   from_port         = 1194
   to_port           = 1194
-  protocol          = "tcp"
+  protocol          = "udp"
   cidr_blocks = ["0.0.0.0/0"]
   security_group_id = module.vpn.sg_id
 }

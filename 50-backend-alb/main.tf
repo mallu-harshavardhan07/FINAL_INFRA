@@ -28,3 +28,21 @@ resource "aws_alb_listener" "backend_alb" {
     }
   }
 }
+variable "zone_id" {
+  default = "Z03390001OMXCO0XSJRXF"
+}
+variable "zone_name" {
+  default = "malluharshavardhanreddy.site"
+}
+resource "aws_route53_record" "www" {
+  zone_id = var.zone_id
+  name    = "*.backend-dev.${var.zone_name}"
+  type    = "A"
+
+  alias {
+    name                   = module.backend_alb.dns_name
+    #the below one is zone of alb
+    zone_id                = module.backend_alb.zone_id
+    evaluate_target_health = true
+  }
+}
